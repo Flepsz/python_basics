@@ -87,15 +87,17 @@ def number():
 def lose():
     if match == 0:
         print('{}YOU LOSE, TRY AGAIN!{}\n'.format(color['red'], color['c']))
+        time_stop("GAME OVER!!")
         number()
 
 
 def win():
     print("{}YOU'RE GOD DAMN RIGHT.{}\n".format(color['cyan'], color['c']))
+    time_stop("GAME OVER!!")
 
 
-def time_stop():
-    print('THE TIME IS UP, GAME OVER!')
+def time_stop(msg="THE TIME IS UP, GAME OVER!"):
+    print(msg)
     pid = os.getpid()
     os.kill(pid, 0)
 
@@ -105,3 +107,4 @@ rules()
 start()
 logic()
 lose()
+time_stop()
