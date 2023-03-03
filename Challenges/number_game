@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# Created By  : Luís Felipe Pereira
+# Created By  : Luis Felipe Pereira
 # Created Date: 02/26/2023
 # Version 1.0
 # ---------------------------------------------------------------------------
@@ -26,6 +26,10 @@ color = {
 
 
 def rules():
+    """
+    Shows the rules of the game.
+    :return:
+    """
     print('')
     print('  ' * 16, ' <<<<< MATCH YOUR LUCKY NUMBER >>>>> ')
     print('')
@@ -38,7 +42,11 @@ def rules():
     print('===' * 35)
 
 
-def start():
+def start_game():
+    """
+    Menu to user input, and start the game.
+    :return:
+    """
     op = int(input('[1] START: '))
     while op != 1:
         print('OPTION INVALID, TRY AGAIN!')
@@ -48,55 +56,88 @@ def start():
         print('')
         print('LET THE GAME BEGIN!')
         print('')
-        t = Timer(15.0, time_stop)
+        t = Timer(3.0, time_stop)
         t.start()
 
 
 def logic():
+    """
+    Principal logic of game.
+    :return:
+    """
     global num_inputted, attempts, life, match
     while attempts > 0 and num_inputted != lucky_number and life > 0:
         attempts -= 1
-        lives()
+        lives_print()
         num_inputted = int(input('Type your number: \n'))
         print('\n')
         life -= taken_damage()
         if lucky_number == num_inputted:
             match += 1
-            win()
+            win_message()
 
 
 def random_num():
+    """
+    Generate the number that the user will try to match.
+    :return:
+    """
     num = randint(1, 100)
     return num
 
 
 def taken_damage():
+    """
+    Amount of damage that the user will take.
+    :return:
+    """
     global damage
     damage = abs(lucky_number - num_inputted)
     return damage
 
 
-def lives():
+def lives_print():
+    """
+    Print user remain lives.
+    :return:
+    """
     print('Lives: {}{}{}'.format(color['r'], life, color['c']))
 
 
-def number():
+def number_reveal():
+    """
+    Reveals the secret number
+    :return:
+    """
     print('The lucky number was = {}{}{}'.format(color['green'], lucky_number, color['c']))
 
 
-def lose():
+def lose_message():
+    """
+    Message when user lose the game.
+    :return:
+    """
     if match == 0:
         print('{}YOU LOSE, TRY AGAIN!{}\n'.format(color['red'], color['c']))
         time_stop("GAME OVER!!")
-        number()
+        number_reveal()
 
 
-def win():
+def win_message():
+    """
+    Message when user win the game.
+    :return:
+    """
     print("{}YOU'RE GOD DAMN RIGHT.{}\n".format(color['cyan'], color['c']))
     time_stop("GAME OVER!!")
 
 
 def time_stop(msg="THE TIME IS UP, GAME OVER!"):
+    """
+    Logic to close the game when time ends.
+    :param msg:
+    :return:
+    """
     print(msg)
     pid = os.getpid()
     os.kill(pid, 0)
@@ -104,7 +145,7 @@ def time_stop(msg="THE TIME IS UP, GAME OVER!"):
 
 lucky_number = random_num()
 rules()
-start()
+start_game()
 logic()
-lose()
+lose_message()
 time_stop()
